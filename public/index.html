@@ -105,11 +105,42 @@
                 <div class="messagebox panel panel-default" ng-hide="username == false">
                         <h4 class="semi-bold b-grey">Awesome chatgroup</h4>
                     <div scroll-glue class="panel-body" style="height: 525px; max-height: 80%; overflow-y: scroll;">
-                        <section ng-repeat="message in messages" ng-class="{'pull-right': message.type === 'joined_message'}">
+                        <!-- <section ng-repeat="message in messages" ng-class="{'pull-right': message.type === 'joined_message'}">
                             <small class="text-error" ng-show="message.type === 'joined_message'"><i><b ng-bind="message.username"></b></i> joined </small>
                             <small class="text-error" am-time-ago="message.dateTime"></small>
                             <p ng-show="message.type == 'message'"><span class="semi-bold" ng-bind="message.username"></span>: <span ng-bind="message.message"></span></p>
-                        </section>
+                        </section> -->
+
+                        <div class="tiles white ">
+                        <div ng-repeat="message in messages">
+                        <div class="p-t-20 p-b-15 b-b b-grey" ng-show="message.type === 'joined_message' || 'message'">
+                                <section class="pull-right" style="margin-top:-10px;" ng-show="message.type === 'joined_message'">
+                            <small class="text-error" ng-show="message.type === 'joined_message'"><i>
+                            <img width="16" height="16" style="border-radius:100%;" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" data-src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" data-src-retina="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" alt="">
+                            <b ng-bind="message.username"></b></i> joined </small>
+                            <small class="text-error" am-time-ago="message.dateTime"></small>
+                            </section>
+                                <div class="post overlap-left-10" ng-show="message.type == 'message'">
+                                    <div class="user-profile-pic-wrapper">
+                                        <div class="user-profile-pic-2x white-border">
+                                            <img width="45" height="45" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" data-src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" data-src-retina="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="info-wrapper small-width inline">
+                                        <div class="info text-black " ng-show="message.type == 'message'">
+                                            <p><span class="semi-bold" ng-bind="message.username"></span>: <span ng-bind="message.message"></span></p>
+                                                <p class="muted small-text" am-time-ago="message.dateTime"></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="inline pull-right">
+                                            <a href="#" class="tiles white p-t-5 p-l-5 p-b-5 p-r-5 inline"> <i class="fa fa-comment-o fa-lg"></i> </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div></div>
+
+</div></div>
+
                     </div>
                 <!-- <div class="panel-footer">
                     <form class="form-horizontal" ng-submit="sendMessage()">
