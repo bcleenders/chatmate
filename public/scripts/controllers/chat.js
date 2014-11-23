@@ -10,6 +10,11 @@ angular.module('chatWebApp')
         $scope.counter = 0;
         $scope.latitude = -1;
         $scope.longitude = -1;
+        $scope.groups = [];
+        $scope.currentGroup = '';
+        $scope.history = {};
+        $scope.inputGroupName = '';
+        $scope.inputRange = 0;
 
         var Notification = window.Notification || window.mozNotification || window.webkitNotification;
 
@@ -20,7 +25,12 @@ angular.module('chatWebApp')
             }
             var msg = JSON.parse(data);
             msg.id = $scope.counter;
-            $scope.messages.push(msg);
+            if($scope.history[data.group] == null) {
+                $scope.history[data.group] = [];
+                $scope.history[data.group].push(msg);
+            }
+            $scope.history[data.group].push(msg);
+            // $scope.messages.push(msg);
             $scope.counter++;
             var hidden = false;
             if (typeof document.hidden !== "undefined") {
@@ -44,11 +54,38 @@ angular.module('chatWebApp')
             }
         });
 
+        $scope.$on('socket:group_info', function (ev, data) {
+            var group = JSON.parse(data);
+            $scope.groups.push(group);
+        };
+
         $scope.sendMessage = function () {
-            socket.emit('send_message', $scope.newMessage);
+            var msg = {
+                Message: $scope.newMessage,
+                Group: $scope.currentGroup
+            };
+            socket.emit('send_message', msg);
             $scope.messages.push($scope.newMessage);
             $scope.newMessage = '';
         };
+
+        $scope.changeGroup = function (group) {
+            if($scope.history[group] == null) {
+                socket.emit('join_group', group);
+                $scope.history[group] = [];
+            }
+            $scope.messages = history[group];
+            $scope.currentGroup = group;
+        }
+
+        $scope.createGroup = function() {
+            var group = {
+                Name: $scope.inputGroupName,
+                Range: $scope.inputRange
+            };
+            socket.emit('new_group', JSON.stringify(group));
+            $scope.history[group] = [];  
+        }
 
         $scope.setUsername = function () {
             $scope.username = $scope.inputUsername;

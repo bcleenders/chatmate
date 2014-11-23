@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Chat ✍</title>
+    <title>ChatMate</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- <link rel="stylesheet" href="/public/lib/bootstrap-theme-white-plum/dist/css/bootstrap.css" /> -->
@@ -46,8 +46,6 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -80,25 +78,60 @@
 </div>  
         <div class="row" ng-hide="username == false" style="margin-top:10px; padding:10px;">
           <div class="col-md-4" style="margin-top:10px; height: 525px; max-height: 80%; overflow-y: scroll;">
+            <div data-toggle="modal" data-target="#myModal2" class="btn btn-block btn-success" type="button" style="margin-bottom:10px;">Make a new Group</div>
             <!-- <h4 class="semi-bold b-grey">Groups</h4> -->
-            <div>
+
+<!-- Modal2 -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a new Group</h4>
+      </div>
+      <div class="modal-body">
+            <label for="username">Groupname:</label>
+            <input id="username" class="form-control" ng-model="inputGroupName">
+            <label for="range">Range:</label>
+            <select id="range" ng-model="inputRange">
+              <option value="0.05">50 meter</option>
+              <option value="0.1">100 meter</option>
+              <option value="0.5">500 meter</option>
+              <option value="1">1 km</option>
+              <option value="5">5 km</option>
+              <option value="10">10 km</option>
+              <option value="25">25 km</option>
+              <option value="50">50 km</option>
+            </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createGroup()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+            <div ng-repeat="group in groups">
 <div class="grid simple vertical green">
-<div class="grid-title no-border">
-<h4>Group <span class="semi-bold">One</span></h4>
+<div class="grid-title no-border" ng-click="changeGroup(group.name)">
+<!-- <h4>Group <span class="semi-bold">One</span></h4> -->
+<h4>{{group.name}}</h4>
 <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
 </div>
 <div class="grid-body no-border">
 <div class="row-fluid" style="margin-top: -25px; margin-left: -10px;">
 <div class="pull-left">
-    <h6>10 people in the group</h6>
+    <h6>{{group.people}} people in the group</h6>
 </div>
 <div class="pull-right">
-    <h6>Maximum range 100 meters</h6>
+    <h6>Maximum range {{group.range}}</h6>
 </div>
 </div>
 </div>
 </div>
 </div>
+
+
           </div>
           <div class="col-md-8" style="margin-top:10px;">
             <div class="row" style="background-color:white; padding:10px;">

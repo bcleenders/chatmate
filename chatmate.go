@@ -5,10 +5,10 @@ import (
 	"github.com/googollee/go-socket.io"
 	"log"
 	"net/http"
-    "sync"
-    "strings"
-    "time"
-    // "main"
+	"strings"
+	"sync"
+	"time"
+	// "main"
 )
 
 // Should look like path
@@ -44,7 +44,7 @@ func main() {
 		}
 		lmMutex.Unlock()
 
-        so.On("joined_message", func(message string) {
+		so.On("joined_message", func(message string) {
 			decoder := json.NewDecoder(strings.NewReader(message))
 			var msg initMsg
 			decoder.Decode(&msg)
@@ -79,47 +79,47 @@ func main() {
 			so.Emit("message", string(jsonRes))
 			so.BroadcastTo(websocketRoom, "message", string(jsonRes))
 		})
-        so.On("new_group", func(message string) {
-            // Create the new group
-            messageChan := make(chan string)
-            newRoom := Room{
-                Name:"TestNaam", 
-                MessageChan:messageChan,
-            }
-            go newRoom.Run()
-        })
-        so.On("send_message", func(message string) {
-            log.Println("send_message from", username)
-            res := map[string]interface{}{
-                "username": username,
-                "message":  message,
-                "dateTime": time.Now().UTC().Format(time.RFC3339),
-                "type":     "message",
-            }
-            jsonRes, _ := json.Marshal(res)
-            lmMutex.Lock()
-            if len(lastMessages) == 100 {
-                lastMessages = lastMessages[1:100]
-            }
-            lastMessages = append(lastMessages, string(jsonRes))
-            lmMutex.Unlock()
-            so.Emit("message", string(jsonRes))
-            so.BroadcastTo(websocketRoom, "message", string(jsonRes))
-        })
-        so.On("disconnection", func() {
-            log.Println("on disconnect", username)
-        })
-    })
-    sio.On("error", func(so socketio.Socket, err error) {
-        log.Println("error:", err)
-    })
+		so.On("new_group", func(message string) {
+			// Create the new group
+			messageChan := make(chan string)
+			newRoom := Room{
+				Name:        "TestNaam",
+				MessageChan: messageChan,
+			}
+			go newRoom.Run()
+		})
+		so.On("send_message", func(message string) {
+			log.Println("send_message from", username)
+			res := map[string]interface{}{
+				"username": username,
+				"message":  message,
+				"dateTime": time.Now().UTC().Format(time.RFC3339),
+				"type":     "message",
+			}
+			jsonRes, _ := json.Marshal(res)
+			lmMutex.Lock()
+			if len(lastMessages) == 100 {
+				lastMessages = lastMessages[1:100]
+			}
+			lastMessages = append(lastMessages, string(jsonRes))
+			lmMutex.Unlock()
+			so.Emit("message", string(jsonRes))
+			so.BroadcastTo(websocketRoom, "message", string(jsonRes))
+		})
+		so.On("disconnection", func() {
+			log.Println("on disconnect", username)
+		})
+	})
+	sio.On("error", func(so socketio.Socket, err error) {
+		log.Println("error:", err)
+	})
 
 	// Sets up the handlers and listen on port 8080
 	http.Handle("/socket.io/", sio)
 	// Serve CSS, Javascript...
-	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("/home/damnyankee/public/"))))
+	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public/"))))
 	// Serve index.html
-	http.Handle("/", http.FileServer(http.Dir("/home/damnyankee/public/")))
+	http.Handle("/", http.FileServer(http.Dir("./public/")))
 
 	port := ":1337"
 	log.Println("Server started on port", port)
