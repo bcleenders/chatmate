@@ -102,7 +102,8 @@ func main() {
 			lastMessages = append(lastMessages, string(jsonRes))
 			lmMutex.Unlock()
 			so.Emit("message", string(jsonRes))
-			so.BroadcastTo(websocketRoom, "message", string(jsonRes))
+            so.BroadcastTo(msg.group, "message", string(jsonRes))
+			// so.BroadcastTo(websocketRoom, "message", string(jsonRes))
 		})
         so.On("new_group", func(message string) {
             // Create the new group
