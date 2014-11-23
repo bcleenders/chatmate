@@ -62,11 +62,10 @@ angular.module('chatWebApp')
         $scope.sendMessage = function () {
             var msg = {
                 Message: $scope.newMessage,
-                Group: $scope.currentGroup,
-                counter: $scope.counter
+                Group: $scope.currentGroup
             };
-            socket.emit('send_message', msg);
-            $scope.messages.push($scope.newMessage);
+            socket.emit('send_message', JSON.stringify(msg));
+            $scope.history[$scope.currentGroup].push($scope.newMessage);
             $scope.newMessage = '';
             $scope.counter++;
         };
@@ -87,9 +86,10 @@ angular.module('chatWebApp')
                 People: 1
             };
             socket.emit('new_group', JSON.stringify(group));
-            $scope.history[group] = []; 
+            $scope.history[group.Name] = []; 
             $scope.groups.push(group);
             $scope.currentGroup = group.Name; 
+            $scope.messages = history[group];
         }
 
         $scope.setUsername = function () {
