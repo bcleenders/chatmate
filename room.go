@@ -1,6 +1,7 @@
 package main
 
 import (
+    "github.com/googollee/go-socket.io"
     "log"
     "time"
 )
@@ -8,6 +9,7 @@ import (
 type Room struct {
     Name string
     MessageChan chan string
+    Range float64
 }
 
 // Returns a unique name for this group
@@ -25,4 +27,8 @@ func (r *Room) Run() {
                 log.Println("Group", (*r).Name, "has been inactive for 5 minutes. Should we delete it?")
         }
     }
+}
+
+func (r Room) Join(so socketio.Socket) () {
+    log.Println("A user has just joined group", r.Name)
 }

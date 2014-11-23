@@ -57,7 +57,7 @@ angular.module('chatWebApp')
         $scope.$on('socket:group_info', function (ev, data) {
             var group = JSON.parse(data);
             $scope.groups.push(group);
-        };
+        });
 
         $scope.sendMessage = function () {
             var msg = {
@@ -81,10 +81,13 @@ angular.module('chatWebApp')
         $scope.createGroup = function() {
             var group = {
                 Name: $scope.inputGroupName,
-                Range: $scope.inputRange
+                Range: $scope.inputRange,
+                People: 1
             };
             socket.emit('new_group', JSON.stringify(group));
-            $scope.history[group] = [];  
+            $scope.history[group] = []; 
+            $scope.groups.push(group);
+            $scope.currentGroup = group.Name; 
         }
 
         $scope.setUsername = function () {

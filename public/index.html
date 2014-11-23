@@ -115,16 +115,16 @@
 <div class="grid simple vertical green">
 <div class="grid-title no-border" ng-click="changeGroup(group.name)">
 <!-- <h4>Group <span class="semi-bold">One</span></h4> -->
-<h4>{{group.name}}</h4>
+<h4>{{group.Name}}</h4>
 <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
 </div>
 <div class="grid-body no-border">
 <div class="row-fluid" style="margin-top: -25px; margin-left: -10px;">
 <div class="pull-left">
-    <h6>{{group.people}} people in the group</h6>
+    <h6>{{group.People}} people in the group</h6>
 </div>
 <div class="pull-right">
-    <h6>Maximum range {{group.range}}</h6>
+    <h6>Maximum range {{group.Range}} meter</h6>
 </div>
 </div>
 </div>
@@ -136,7 +136,7 @@
           <div class="col-md-8" style="margin-top:10px;">
             <div class="row" style="background-color:white; padding:10px;">
                 <div class="messagebox panel panel-default" ng-hide="username == false">
-                        <h4 class="semi-bold b-grey">Awesome chatgroup</h4>
+                        <h4 class="semi-bold b-grey"> {{ currentGroup }}</h4>
                     <div scroll-glue class="panel-body" style="height: 525px; max-height: 80%; overflow-y: scroll;">
                         <!-- <section ng-repeat="message in messages" ng-class="{'pull-right': message.type === 'joined_message'}">
                             <small class="text-error" ng-show="message.type === 'joined_message'"><i><b ng-bind="message.username"></b></i> joined </small>
