@@ -7,6 +7,7 @@ angular.module('chatWebApp')
         $scope.username = false;
         $scope.inputUsername = '';
         $scope.glued = true;
+        $scope.counter = 0;
         var Notification = window.Notification || window.mozNotification || window.webkitNotification;
 
         socket.forward('message', $scope);
@@ -15,8 +16,9 @@ angular.module('chatWebApp')
                 $scope.messages.splice(0, 1);
             }
             var msg = JSON.parse(data);
+            msg.id = $scope.counter;
             $scope.messages.push(msg);
-
+            $scope.counter++;
             var hidden = false;
             if (typeof document.hidden !== "undefined") {
                 hidden = "hidden";

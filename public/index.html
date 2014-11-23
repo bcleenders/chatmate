@@ -113,13 +113,15 @@
 
                         <div class="tiles white ">
                         <div ng-repeat="message in messages">
-                        <div class="p-t-20 p-b-15 b-b b-grey" ng-show="message.type === 'joined_message' || 'message'">
+                        <div class="p-t-20 p-b-15 b-b b-grey" ng-show="message.type === 'joined_message'">
                                 <section class="pull-right" style="margin-top:-10px;" ng-show="message.type === 'joined_message'">
                             <small class="text-error" ng-show="message.type === 'joined_message'"><i>
                             <img width="16" height="16" style="border-radius:100%;" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" data-src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" data-src-retina="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/v/t1.0-1/c19.0.64.64/p74x74/62387_185282364976097_623090057_n.jpg?oh=b58447d84622e6ed73c6c4dfc1ceca02&oe=55138B3A&__gda__=1423831391_a3ab7e8a09fc6387b3257f3336dbea3d" alt="">
                             <b ng-bind="message.username"></b></i> joined </small>
                             <small class="text-error" am-time-ago="message.dateTime"></small>
                             </section>
+                        </div>
+                        <div class="p-t-20 p-b-15 b-b b-grey" ng-show="message.type === 'message'">
                                 <div class="post overlap-left-10" ng-show="message.type == 'message'">
                                     <div class="user-profile-pic-wrapper">
                                         <div class="user-profile-pic-2x white-border">
