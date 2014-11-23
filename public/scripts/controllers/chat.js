@@ -20,6 +20,7 @@ angular.module('chatWebApp')
 
         socket.forward('message', $scope);
         $scope.$on('socket:message', function (ev, data) {
+            //if($scope.messages == null) $scope.messages = [];
             if ($scope.messages.length > 100) {
                 $scope.messages.splice(0, 1);
             }
@@ -89,7 +90,7 @@ angular.module('chatWebApp')
             $scope.history[group.Name] = []; 
             $scope.groups.push(group);
             $scope.currentGroup = group.Name; 
-            $scope.messages = history[group];
+            $scope.messages = history[group.Name];
         }
 
         $scope.setUsername = function () {
