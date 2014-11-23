@@ -126,7 +126,7 @@ func main() {
             }
             jsonInfo, _ := json.Marshal(info)
             so.Emit("group_info", string(jsonInfo))
-            so.BroatcastTo(websocketRoom, "group_info", string(jsonRes))
+            so.BroadcastTo(websocketRoom, "group_info", string(jsonInfo))
 
 			go newRoom.Run()
 		})
