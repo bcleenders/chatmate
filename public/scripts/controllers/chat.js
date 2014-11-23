@@ -62,11 +62,13 @@ angular.module('chatWebApp')
         $scope.sendMessage = function () {
             var msg = {
                 Message: $scope.newMessage,
-                Group: $scope.currentGroup
+                Group: $scope.currentGroup,
+                counter: $scope.counter
             };
             socket.emit('send_message', msg);
             $scope.messages.push($scope.newMessage);
             $scope.newMessage = '';
+            $scope.counter++;
         };
 
         $scope.changeGroup = function (group) {
