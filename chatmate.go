@@ -62,6 +62,8 @@ func main() {
 			so.Emit("message", string(jsonRes))
 			so.BroadcastTo(websocketRoom, "message", string(jsonRes))
 
+            username = msg.Username
+
 			for k, v := range rooms {
 				if true { // Should be a check if the group is in range!
 					info := map[string]interface{}{
@@ -115,6 +117,16 @@ func main() {
 			newRoom.MessageChan = messageChan
 			rooms[newRoom.Name] = newRoom
 			rooms[newRoom.Name].Join(so)
+
+            info := map[string]interface{}{
+                "name": newRoom.Name,
+                "range": newRoom.Range,
+                "people": 1,
+                "type": "group_info",
+            }
+            jsonInfo, _ := json.Marshal(info)
+            so.Emit("group_info", string(jsonInfo))
+            so.BroatcastTo(websocketRoom, "group_info", string(jsonRes))
 
 			go newRoom.Run()
 		})
