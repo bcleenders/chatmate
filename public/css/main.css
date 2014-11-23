@@ -1,16 +1,17 @@
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   .container {
     max-width: 660px;
   }
-}
+}*/
 
 .container-narrow > hr {
   margin: 30px 0;
 }
 
-.container {
+.content-container {
     margin-top: 50px;
     margin-bottom: 50px;
+    background-color: #e5e9ec;
 }
 
 .usernamebox.ng-hide-add, .usernamebox.ng-hide-remove {

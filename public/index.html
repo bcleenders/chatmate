@@ -6,49 +6,137 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ChatMate</title>
+    <title>Chat ✍</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="/lib/bootstrap-theme-white-plum/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="/lib/animate.css/animate.css" />
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/bubbles.css">
+    <!-- <link rel="stylesheet" href="/public/lib/bootstrap-theme-white-plum/dist/css/bootstrap.css" /> -->
+    <link rel="stylesheet" href="/public/lib/animate.css/animate.css" />
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/bubbles.css">
+
+    <link href="/public/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/public/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/public/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+    <link href="/public/css/animate.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/public/css/responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="/public/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+
     <script type="text/javascript" src="//cdn.socket.io/socket.io-1.1.0.js" integrity="ni:///sha-256;4omls-f3OZnoi9yQzyNT9_vPSo8hb-oTnjdwgyUcJV8=?ct=application/javascript"></script>
+
+    <script src="/public/plugins/jquery-1.8.3.min.js" type="text/javascript"></script> 
+    <script src="/public/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
   </head>
   <body ng-app="chatWebApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container" ng-controller="ChatCtrl">
-        <div class="usernamebox panel panel-info" ng-hide="username != false">
-            <div class="panel-body">
-                <form class="form-horizontal" ng-submit="setUsername()">
-                    <label for="username">Username:</label>
-                    <input id="username" class="form-control" ng-model="inputUsername">
-                </form>
-            </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ChatMate</a>
         </div>
-        <div class="messagebox panel panel-default" ng-hide="username == false">
-            <div class="panel-heading">
-                <h1>Chat ✍</h1>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="content-container" ng-controller="ChatCtrl" style="height:100%">
+        
+        <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" ng-hide="username != false" style="margin:10px;">
+  Register
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create your Account</h4>
+      </div>
+      <div class="modal-body">
+            <label for="username">Username:</label>
+            <input id="username" class="form-control" ng-model="inputUsername">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setUsername()">Create</button>
+      </div>
+    </div>
+  </div>
+</div>  
+        <div class="row" ng-hide="username == false" style="margin-top:10px; padding:10px;">
+          <div class="col-md-4" style="margin-top:10px; height: 525px; max-height: 80%; overflow-y: scroll;">
+            <!-- <h4 class="semi-bold b-grey">Groups</h4> -->
+            <div>
+<div class="grid simple vertical green">
+<div class="grid-title no-border">
+<h4>Group <span class="semi-bold">One</span></h4>
+<div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+</div>
+<div class="grid-body no-border">
+<div class="row-fluid" style="margin-top: -25px; margin-left: -10px;">
+<div class="pull-left">
+    <h6>10 people in the group</h6>
+</div>
+<div class="pull-right">
+    <h6>Maximum range 100 meters</h6>
+</div>
+</div>
+</div>
+</div>
+</div>
+          </div>
+          <div class="col-md-8" style="margin-top:10px;">
+            <div class="row" style="background-color:white; padding:10px;">
+                <div class="messagebox panel panel-default" ng-hide="username == false">
+                        <h4 class="semi-bold b-grey">Awesome chatgroup</h4>
+                    <div scroll-glue class="panel-body" style="height: 525px; max-height: 80%; overflow-y: scroll;">
+                        <section ng-repeat="message in messages" ng-class="{'pull-right': message.type === 'joined_message'}">
+                            <small class="text-error" ng-show="message.type === 'joined_message'"><i><b ng-bind="message.username"></b></i> joined </small>
+                            <small class="text-error" am-time-ago="message.dateTime"></small>
+                            <p ng-show="message.type == 'message'"><span class="semi-bold" ng-bind="message.username"></span>: <span ng-bind="message.message"></span></p>
+                        </section>
+                    </div>
+                <!-- <div class="panel-footer">
+                    <form class="form-horizontal" ng-submit="sendMessage()">
+                        <label for="message">Message:</label>
+                        <input id="message" class="form-control" ng-model="newMessage">
+                    </form>
+                </div> -->
+                </div>
+                <div class="row" style="border-top:10px solid #e5e9ec;">
+              <div class="col-md-12" style="padding-top:10px;">
+                <div class="tiles white">
+                    <textarea rows="3"  class="form-control user-status-box post-input"  placeholder="Whats on your mind?" ng-model="newMessage"></textarea>
+                </div>
+                <div class="tiles grey padding-10">
+                    <div class="pull-left">
+                        <button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-camera"></i></button>
+                        <button class="btn btn-default btn-sm btn-small" type="button"><i class="fa fa-map-marker"></i></button>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-primary btn-sm btn-small" type="button" ng-click="sendMessage()">POST</button>
+                    </div>                  
+                    <div class="clearfix"></div>
+                </div>                                      
+              </div>
             </div>
-            <div scroll-glue class="panel-body" style="height: 600px; max-height: 80%; overflow-y: scroll;">
-                <section ng-repeat="message in messages" ng-class="{'pull-right': message.type === 'joined_message'}">
-                    <small class="text-info" ng-show="message.type === 'joined_message'"><i>[<b ng-bind="message.username"></b>]</i> joined </small>
-                    <small class="text-info" am-time-ago="message.dateTime"></small>
-                    <p ng-show="message.type == 'message'">[<label ng-bind="message.username"></label>] <span ng-bind="message.message"></span></p>
-                </section>
+
             </div>
-            <div class="panel-footer">
-                <form class="form-horizontal" ng-submit="sendMessage()">
-                    <label for="message">Message:</label>
-                    <input id="message" class="form-control" ng-model="newMessage">
-                </form>
-            </div>
-        </div>
-        <div class="footer" style="text-align: center">
-            <p>made with ♥</p>
         </div>
     </div>
 
@@ -59,18 +147,18 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="/lib/angular/angular.js"></script>
-    <script src="/lib/angular-animate/angular-animate.min.js"></script>
-    <script src="/lib/angular-socket-io/socket.js"></script>
-    <script src="/lib/moment/min/moment.min.js"></script>
-    <script src="/lib/angular-moment/angular-moment.min.js"></script>
-    <script src="/lib/angularjs-scroll-glue/src/scrollglue.js"></script>
+    <script src="/public/lib/angular/angular.js"></script>
+    <script src="/public/lib/angular-animate/angular-animate.min.js"></script>
+    <script src="/public/lib/angular-socket-io/socket.js"></script>
+    <script src="/public/lib/moment/min/moment.min.js"></script>
+    <script src="/public/lib/angular-moment/angular-moment.min.js"></script>
+    <script src="/public/lib/angularjs-scroll-glue/src/scrollglue.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="/scripts/app.js"></script>
-        <script src="/scripts/controllers/chat.js"></script>
-        <script src="/scripts/services/socket.js"></script>
+        <script src="/public/scripts/app.js"></script>
+        <script src="/public/scripts/controllers/chat.js"></script>
+        <script src="/public/scripts/services/socket.js"></script>
         <!-- endbuild -->
 </body>
 </html>
