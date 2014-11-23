@@ -8,6 +8,9 @@ angular.module('chatWebApp')
         $scope.inputUsername = '';
         $scope.glued = true;
         $scope.counter = 0;
+        $scope.latitude = -1;
+        $scope.longitude = -1;
+
         var Notification = window.Notification || window.mozNotification || window.webkitNotification;
 
         socket.forward('message', $scope);
@@ -49,9 +52,31 @@ angular.module('chatWebApp')
 
         $scope.setUsername = function () {
             $scope.username = $scope.inputUsername;
-            socket.emit('joined_message', $scope.username);
-            // setUsername is called once and can be regarded as "login"
-            Notification.requestPermission(function (permission) {
-            });
+
+            function geoError() {
+                alert("Could not locate you!");
+            }
+            function geoSuccess(p) {
+            console.log("Found you at latitude " + p.coords.latitude +
+            ", longitude " + p.coords.longitude);
+                $scope.latitude = p.coords.latitude;
+                $scope.longitude = p.coords.longitude;
+                var msg = {
+                    Username: $scope.username,
+                    Latitude: p.coords.latitude,
+                    Longitude: p.coords.longitude,
+                };
+                socket.emit('joined_message', JSON.stringify(msg));
+                console.log(msg);
+                // setUsername is called once and can be regarded as "login"
+                Notification.requestPermission(function (permission) {
+                });
+            }
+
+            if (geoPosition.init()) {
+                geoPosition.getCurrentPosition(geoSuccess, geoError);
+            } else {
+                alert("geoPosition does not work.\nNo swags, no profitz :'(")
+            }
         };
     }]);
