@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/googollee/go-socket.io"
+    // "github.com/kellydunn/golang-geo"
 	"log"
 	"net/http"
     "sync"
@@ -20,7 +21,7 @@ type initMsg struct {
 	Longitude float64
 }
 
-var rooms []Room = make([]Room, 64)
+var rooms map[string]Room = make(map[string]Room)
 
 func main() {
 	lastMessages := []string{}
@@ -60,12 +61,36 @@ func main() {
 			jsonRes, _ := json.Marshal(res)
 			so.Emit("message", string(jsonRes))
 			so.BroadcastTo(websocketRoom, "message", string(jsonRes))
+
+            for k, v := range rooms {
+                if (true) { // Should be a check if the group is in range!
+                    info := map[string]interface{}{
+                        "name": k,
+                        "range": v.Range,
+                        "people": 40,
+                        "type": "group_info",
+                    }
+                    jsonInfo, _ := json.Marshal(info)
+                    so.Emit("group_info", string(jsonInfo))
+                }
+            }
 		})
 		so.On("send_message", func(message string) {
 			log.Println("send_message from", username)
+
+            type Message struct {
+                Group string
+                Message string
+            }
+
+            var msg Message
+            decoder := json.NewDecoder(strings.NewReader(message))
+            decoder.Decode(&msg)
+
 			res := map[string]interface{}{
 				"username": username,
-				"message":  message,
+                "group": msg.Group,
+				"message":  msg.Message,
 				"dateTime": time.Now().UTC().Format(time.RFC3339),
 				"type":     "message",
 			}
@@ -82,29 +107,19 @@ func main() {
         so.On("new_group", func(message string) {
             // Create the new group
             messageChan := make(chan string)
-            newRoom := Room{
-                Name:"TestNaam", 
-                MessageChan:messageChan,
-            }
+            var newRoom Room
+
+            decoder := json.NewDecoder(strings.NewReader(message))
+            decoder.Decode(&newRoom)
+            newRoom.MessageChan = messageChan
+            rooms[newRoom.Name] = newRoom
+            rooms[newRoom.Name].Join(so) 
+
             go newRoom.Run()
         })
-        so.On("send_message", func(message string) {
-            log.Println("send_message from", username)
-            res := map[string]interface{}{
-                "username": username,
-                "message":  message,
-                "dateTime": time.Now().UTC().Format(time.RFC3339),
-                "type":     "message",
-            }
-            jsonRes, _ := json.Marshal(res)
-            lmMutex.Lock()
-            if len(lastMessages) == 100 {
-                lastMessages = lastMessages[1:100]
-            }
-            lastMessages = append(lastMessages, string(jsonRes))
-            lmMutex.Unlock()
-            so.Emit("message", string(jsonRes))
-            so.BroadcastTo(websocketRoom, "message", string(jsonRes))
+        so.On("join_group", func(message string) {
+            so.Join(message)
+            rooms[message].Join(so)
         })
         so.On("disconnection", func() {
             log.Println("on disconnect", username)
